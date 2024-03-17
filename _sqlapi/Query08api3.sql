@@ -34,7 +34,8 @@ inner join (select  kw.wine_id as wine_id1,
 						group by vnt.wine_id ) as price_L1
 			from 	keywords_wine kw
 			inner join wines wn ON wn.id = kw.wine_id
-			where upper(wn.name) like upper(@VINE) --and wn.id =16578
+			-- where upper(wn.name) like upper(@VINE) --and wn.id =16578
+			where wn.id =@VINE --16578
 			and kw.keyword_type ='primary'
 			and wn.fizziness is null
 			) t 

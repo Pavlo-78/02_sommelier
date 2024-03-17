@@ -3,12 +3,14 @@ import os
 import sys
 sys.stdout.reconfigure(encoding='utf-8')
 import pandas as pd #pip install pandas
-from fastapi import FastAPI # Import FastAPI:.
-from fastapi import HTTPException
+from fastapi import FastAPI 
+# from fastapi import HTMLResponse
+
 from fastapi.responses import Response
+from fastapi import HTTPException
 from datetime import datetime
 
-app88 = FastAPI()# create an instance of the FastAPI class
+app88 = FastAPI() # create an instance of the FastAPI class
 
 @app88.get("/") #decorator provided by FastAPI
 def read_root():#function for GET request  
@@ -20,7 +22,7 @@ def read_debag():#function for GET request
     return r
 
 # === VINES 
-@app88.get("/wine_finder/{wine}")
+@app88.get("/wine_list/{wine}")
 def read_item_list(wine: str):      
     # read sql
     with open(r"../_sqlapi/Query08api1.sql", "r") as file: 
@@ -31,21 +33,20 @@ def read_item_list(wine: str):
     # connect to db
     conn = sqlite3.connect(r"../wine.db")
     # put response to text variable
-    w0,r = 0,""
-    r = r"<strong>THE LIST OF FOUND WINES:</strong>" + "\n"
+    w0,r = 0,"<body>"
+    r +=r"<strong>THE LIST OF FOUND WINES:</strong>" + "\n"
+    # r +=r'<a href="https://example.com">Visit Example.com</a>'
     r+= r'<em> This is a wine search page for further the search of analogs at https://api-wines1.onrender.com/wine_analogue_finder/""' + "\n"
     r+= r" To find the wine you are interested in, enter part of its name at the end of the web-address to this page in double quotes"+ "\n"
     r+= r'EXAMPLE:: link for "Cabernet Sauvignon" wine ==> https://api-wines1.onrender.com/wine_finder/"Cabernet%Sauvignon"' + "\n"
     r+= r'If the name of the wine contains several words, put a "%" sign between them.' + "\n"
     r+= r'If you want to see all varieties, just put the % sign between the quotes'
-    r+="</em>"+"\n"+"----------------------------------------------------------------------\n"
-    x=1
-    for row in conn.cursor().execute(sql):
-        r += str(x)+". "+ row[0] + ", price=" + str(row[1]) + "euro \n" 
-        x+=1
-    r += "-------------------------------------------------\n search string " + wine   
-    r += str(datetime.now())[:19] + "\n" 
-    r = r.replace('\n', '<br>').replace(' ', '&nbsp;').replace('\n', '<br>')
+    r+="</em>"+"\n"+"<pre>----------------------------------------------------------------------\n"
+    for row in conn.cursor().execute(sql): 
+        r += row[0] + rf' <a href="http://127.0.0.1:8000/wine_analogue_finder/{row[2]}">find substitutes--</a>' + "\n"       
+    r += "-------------------------------------------------</pre>\n search string: " + wine + "\n  "  
+    r += str(datetime.now())[:19] + "\n" + "</body>"    
+    r = r.replace('\n', '<br>')#.replace(' ', '&nbsp;').replace('\n', '<br>')
     r = Response(content= r, media_type="text/html")  
     return r 
 
@@ -53,7 +54,7 @@ def read_item_list(wine: str):
 @app88.get("/wine_analogue_finder/{wine}")
 def read_item_finder(wine: str):#, q: Union[str, None] = None):
     # read sql
-    with open(r"../_sqlapi/Query08api2.sql", "r") as file: sql = file.read()
+    with open(r"../_sqlapi/Query08api3.sql", "r") as file: sql = file.read()
     wine = wine.replace(' ','%')
     sql=sql.replace('@VINE',"" + wine + "")
     # connect to db
@@ -83,11 +84,9 @@ def read_item_finder(wine: str):#, q: Union[str, None] = None):
         w0 = w1 
         r += "\n"                
 
-    r += "-------------------------------------------------\n search string " + wine
+    r += "-------------------------------------------------\n search string " + wine + "\n"
     r += str(datetime.now())[:19] + "\n"  
     r = r.replace('\n', '<br>').replace(' ', '&nbsp;').replace('\n', '<br>')   
     r = Response(content= r, media_type="text/html")
     return r 
         
-
-# x=read_item("caberne")
