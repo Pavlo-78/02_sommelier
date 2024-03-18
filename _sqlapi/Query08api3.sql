@@ -35,9 +35,10 @@ inner join (select  kw.wine_id as wine_id1,
 			from 	keywords_wine kw
 			inner join wines wn ON wn.id = kw.wine_id
 			-- where upper(wn.name) like upper(@VINE) --and wn.id =16578
-			where kw.keyword_type ='primary'
-			and wn.id =@VINE --16578
-			and wn.fizziness is null
+			where kw.keyword_type ='primary'			
+			and wn.fizziness is NULL
+--			and wn.id = @VINE
+			and wn.id = 16578
 			) t 
 	on  kw2.keyword_id 		= t.keyword_id
 	and kw2.group_name 		= t.group_name 

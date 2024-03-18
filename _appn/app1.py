@@ -51,7 +51,7 @@ def wlist():
 @app88.get("/substitutes/{wine}")
 def read_item_finder(wine: str):#, q: Union[str, None] = None):
     # read sql
-    with open(r"../_sqlapi/Query08api3.sql", "r") as file: sql = file.read()
+    with open(r"../_sqlapi/Query08api4.sql", "r") as file: sql = file.read()
     wine = wine.replace(' ','%')
     sql=sql.replace('@VINE',"" + wine + "")
     # connect to db
@@ -61,22 +61,21 @@ def read_item_finder(wine: str):#, q: Union[str, None] = None):
     r+= r"<strong>THE LIST OF ALTERNATIVES FOR THIS WINE:</strong>" + "\n"
     r+= r"<em>Wine for which we are looking for a replacement are highlighted in bold." + "\n"
     r+= r"Alternatives with similar taste, rating, and price are shown in regular font"+ "\n"
-    r+= r"Alternatives with a greater number of Taste Confirmations by Consumers (TCC) are shown first"+"\n"
-    r+= "</em>"
-    r+= r"<pre>--------------------------------------------------"
+    # r+= r"Alternatives with a greater number of Taste Confirmations by Consumers (TCC) are shown first"+"\n"
+    r+= "</em><pre>"
+    r+= r" TYPE             NAME                                               WINARY   RATING   PRICE   OLDEST            TASTE" + "\n"
+    r+= r"                  OF WINE                                            ID       AVARAGE  EUR/1L  3_YEARS           CONFIRMATIONS " + "\n"   
     x=1
     for row in conn.cursor().execute(sql): 
-        w1,ww,cc = row[1],row[4],str(row[6])
-        if w0==0 or w1!=w0:           
-            r += "\n" + '<strong>' + "the original:   " + w1  + '</strong>' + "/TCC=" + cc 
-            r += "\n" + ' the substitute:  ' + ww + " / TCC=" + cc # analog
+        w1,w2 = row[2],row[3]
+        if w1==w2:           
+            r += '<strong>' + "the original:     " + row[0]  + '</strong>' #+'\n'            
             x+=1
         else: 
-            if w1==w0: r += ' the substitute:  ' + ww + " / TCC=" + cc # analog
-        w0 = w1 
+            r += ' the substitute:  ' + row[1]        
         r += "\n"                
 
-    r += "-------------------------------------------------</pre>\n"
+    r += "</pre>\n"
     r += str(datetime.now())[:19] + "\n"  
     r = r.replace('\n', '<br>').replace(' ', '&nbsp;').replace('\n', '<br>')   
     r = Response(content= r, media_type="text/html")
