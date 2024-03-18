@@ -43,7 +43,7 @@ def wlist():
     r+= r'If you want to see all varieties, just put the % sign between the quotes'
     r+="</em>"+"\n"+"<pre>----------------------------------------------------------------------\n"
     for row in conn.cursor().execute(sql): 
-        r += row[0] + rf' <a href="http://127.0.0.1:8000/wine_analogue_finder/{row[2]}">find substitutes--</a>' + "\n"       
+        r += row[0] + rf' <a href="https://zero2-sommelier.onrender.com/{row[2]}">find substitutes--</a>' + "\n"       
     r += "-------------------------------------------------</pre>\n search string: ---" + "\n  "  
     r += str(datetime.now())[:19] + "\n" + "</body>"    
     r = r.replace('\n', '<br>')#.replace(' ', '&nbsp;').replace('\n', '<br>')
