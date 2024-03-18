@@ -34,16 +34,14 @@ def w_list():
     conn = sqlite3.connect(r"../wine.db")
     # put response to text variable
     w0,r = 0,"<body>"
-    r +=r"<strong>THE LIST OF FOUND WINES:</strong>" + "\n"
-    # r +=r'<a href="https://example.com">Visit Example.com</a>'
-    r+= r'<em> This is a wine search page for further the search of analogs at https://api-wines1.onrender.com/wine_analogue_finder/""' + "\n"
-    r+= r" To find the wine you are interested in, enter part of its name at the end of the web-address to this page in double quotes"+ "\n"
-    r+= r'EXAMPLE:: link for "Cabernet Sauvignon" wine ==> https://api-wines1.onrender.com/wine_finder/"Cabernet%Sauvignon"' + "\n"
-    r+= r'If the name of the wine contains several words, put a "%" sign between them.' + "\n"
-    r+= r'If you want to see all varieties, just put the % sign between the quotes'
+    r+=r"<strong>THE LIST OF WINESE</strong>" + "\n"    
+    r+= r'<em> ""' + "\n"
+    r+= r'This is a list of the various wines in stock.'+ "\n"
+    r+= r'Click on the "find substitutes" link to see the 5 most popular'+ "\n"
+    r+= r'alternatives carefully selected based on taste, price and rating.' + "\n"
     r+="</em>"+"\n"+"<pre>----------------------------------------------------------------------\n"
     for row in conn.cursor().execute(sql): 
-        r += row[0] + rf' <a href="https://zero2-sommelier.onrender.com/substitutes/{row[2]}">find substitutes--</a>' + "\n"       
+        r += row[0] + rf' <a href="https://zero2-sommelier.onrender.com/substitutes/{row[2]}">find substitutes</a>' + "\n"       
     r += "-------------------------------------------------</pre>\n search string: ---" + "\n  "  
     r += str(datetime.now())[:19] + "\n" + "</body>"    
     r = r.replace('\n', '<br>')#.replace(' ', '&nbsp;').replace('\n', '<br>')
@@ -61,14 +59,10 @@ def read_item_finder(wine: str):#, q: Union[str, None] = None):
     conn = sqlite3.connect(r"../wine.db") 
     # put response to text variable
     w0,r = 0,""    
-    r+= r"<strong>THE LIST OF ALTERNATIVES FOR FOUND WINES (5 for each):</strong>" + "\n"
-    r+= r"<em>Wine varieties matching your search are marked in bold." + "\n"
+    r+= r"<strong>THE LIST OF ALTERNATIVES FOR THIS WINE:</strong>" + "\n"
+    r+= r"<em>Wine for which we are looking for a replacement are highlighted in bold." + "\n"
     r+= r"Alternatives with similar taste, rating, and price are shown in regular font"+ "\n"
     r+= r"Alternatives with a greater number of Taste Confirmations by Consumers (TCC) are shown first"+"\n"
-    r+= r'At first you have to find certain wine here: https://api-wines1.onrender.com/wine_finder/"caberne"' + "\n"
-    r+= r'The selected wine must then be enclosed in double quotes at the end of the link to this page.' + "\n"
-    r+= r'EXAMPLE:: link for "Cabernet Sauvignon" wine ==> https://api-wines1.onrender.com/wine_analogue_finder/"Cabernet Sauvignon"' + "\n"
-
     r+= "</em>"
     r+= r"-----------------------------------------------------------------------------------------"
     x=1
