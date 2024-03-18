@@ -10,3 +10,5 @@
         4. Goto catalog "./_appn"
         5. Run command "uvicorn app1:app88 --reload"
         6. Click on link in the terminal
+
+111

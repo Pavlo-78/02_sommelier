@@ -35,8 +35,8 @@ inner join (select  kw.wine_id as wine_id1,
 			from 	keywords_wine kw
 			inner join wines wn ON wn.id = kw.wine_id
 			-- where upper(wn.name) like upper(@VINE) --and wn.id =16578
-			where wn.id =@VINE --16578
-			and kw.keyword_type ='primary'
+			where kw.keyword_type ='primary'
+			and wn.id =@VINE --16578
 			and wn.fizziness is null
 			) t 
 	on  kw2.keyword_id 		= t.keyword_id
@@ -58,4 +58,5 @@ from a
 group by wine_id1, wine1, price_L1,	wine_id2, wine2, price_L2
 order by wine_id1, sum(count_users) desc ) --select * from b;
 -- result
-select b.* from b where b.RN <= 5 order by price_L1 desc, count_users desc, wine_id1;
+select b.* from b where b.RN <= 10 
+order by price_L1 desc, count_users desc, wine_id1;
