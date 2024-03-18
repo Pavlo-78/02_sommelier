@@ -23,7 +23,7 @@ def read_debag():#function for GET request
 
 # === VINES 
 @app88.get("/w_list")
-def wlist():      
+def w_list():      
     # read sql
     with open(r"../_sqlapi/Query08api1.sql", "r") as file: 
         sql = file.read() 
@@ -43,7 +43,7 @@ def wlist():
     r+= r'If you want to see all varieties, just put the % sign between the quotes'
     r+="</em>"+"\n"+"<pre>----------------------------------------------------------------------\n"
     for row in conn.cursor().execute(sql): 
-        r += row[0] + rf' <a href="https://zero2-sommelier.onrender.com/{row[2]}">find substitutes--</a>' + "\n"       
+        r += row[0] + rf' <a href="https://zero2-sommelier.onrender.com/substitutes/{row[2]}">find substitutes--</a>' + "\n"       
     r += "-------------------------------------------------</pre>\n search string: ---" + "\n  "  
     r += str(datetime.now())[:19] + "\n" + "</body>"    
     r = r.replace('\n', '<br>')#.replace(' ', '&nbsp;').replace('\n', '<br>')
@@ -51,7 +51,7 @@ def wlist():
     return r 
 
 # === ANALOGS 
-@app88.get("/wine_analogue_finder/{wine}")
+@app88.get("/substitutes/{wine}")
 def read_item_finder(wine: str):#, q: Union[str, None] = None):
     # read sql
     with open(r"../_sqlapi/Query08api3.sql", "r") as file: sql = file.read()
