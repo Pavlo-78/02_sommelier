@@ -21,6 +21,7 @@ select
 				order by vvn.year asc limit 3) y
 		group by y.wine_id) as vintag
 	from  wines wn ) t
-where upper(t.name) like upper(@VINE) ;--limit 3;
+--where upper(t.name) like upper(@VINE) 
+limit 300;
 --where t.name like '%'
 

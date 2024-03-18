@@ -22,14 +22,14 @@ def read_debag():#function for GET request
     return r
 
 # === VINES 
-@app88.get("/wine_list/{wine}")
-def read_item_list(wine: str):      
+@app88.get("/w_list")
+def wlist():      
     # read sql
     with open(r"../_sqlapi/Query08api1.sql", "r") as file: 
         sql = file.read() 
     # put variable to sql
-    wine ="'%"+ wine[1:-1] +"%'" # preparation of variable  
-    sql = sql.replace('@VINE', wine ) # preparation of sql
+    # wine ="'%"+ wine[1:-1] +"%'" # preparation of variable  
+    # sql = sql.replace('@VINE', wine ) # preparation of sql
     # connect to db
     conn = sqlite3.connect(r"../wine.db")
     # put response to text variable
@@ -44,7 +44,7 @@ def read_item_list(wine: str):
     r+="</em>"+"\n"+"<pre>----------------------------------------------------------------------\n"
     for row in conn.cursor().execute(sql): 
         r += row[0] + rf' <a href="http://127.0.0.1:8000/wine_analogue_finder/{row[2]}">find substitutes--</a>' + "\n"       
-    r += "-------------------------------------------------</pre>\n search string: " + wine + "\n  "  
+    r += "-------------------------------------------------</pre>\n search string: ---" + "\n  "  
     r += str(datetime.now())[:19] + "\n" + "</body>"    
     r = r.replace('\n', '<br>')#.replace(' ', '&nbsp;').replace('\n', '<br>')
     r = Response(content= r, media_type="text/html")  
