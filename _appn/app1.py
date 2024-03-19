@@ -21,25 +21,18 @@ def read_debag():#function for GET request
     r = os.getcwd()
     return r
 
-# === VINES 
-@app88.get("/wlist")
+@app88.get("/w_list")
 def wlist():      
     # read sql
     with open(r"../_sqlapi/Query08api1.sql", "r") as file: 
         sql = file.read() 
-    # put variable to sql
-    # wine ="'%"+ wine[1:-1] +"%'" # preparation of variable  
-    # sql = sql.replace('@VINE', wine ) # preparation of sql
-    # connect to db
     conn = sqlite3.connect(r"../wine.db")
-    # put response to text variable
     w0,r = 0,"<body>"
     r+=r"<strong>THE LIST OF WINES</strong>" + "\n"    
     r+= r'<em>This is a list of the various wines in stock.'+ "\n"
     r+= r'Click on the "find substitutes" link to see the 5 most popular alternatives carefully selected based on taste, price and rating.'
     r+="</em>"+"\n"+"<pre>----------------------------------------------------------------------\n"
     for row in conn.cursor().execute(sql): 
-        # r += row[0] + rf' <a href="https://zero2-sommelier.onrender.com/substitutes/{row[2]}">find substitutes</a>' + "\n"       
         r += row[0] + rf' <a href="/substitutes/{row[2]}">find substitutes</a>' + "\n"       
     r += "-------------------------------------------------</pre>\n search string: ---" + "\n  "  
     r += str(datetime.now())[:19] + "\n" + "</body>"    
@@ -47,7 +40,6 @@ def wlist():
     r = Response(content= r, media_type="text/html")  
     return r 
 
-# === ANALOGS 
 @app88.get("/substitutes/{wine}")
 def read_item_finder(wine: str):#, q: Union[str, None] = None):
     # read sql
@@ -61,7 +53,6 @@ def read_item_finder(wine: str):#, q: Union[str, None] = None):
     r+= r"<strong>THE LIST OF ALTERNATIVES FOR THIS WINE:</strong>" + "\n"
     r+= r"<em>Wine for which we are looking for a replacement are highlighted in bold." + "\n"
     r+= r"Alternatives with similar taste, rating, and price are shown in regular font"+ "\n"
-    # r+= r"Alternatives with a greater number of Taste Confirmations by Consumers (TCC) are shown first"+"\n"
     r+= "</em><pre>"
     r+= r" TYPE             NAME                                               WINARY   RATING   PRICE   OLDEST            TASTE" + "\n"
     r+= r"                  OF WINE                                            ID       AVARAGE  EUR/1L  3_YEARS           CONFIRMATIONS " + "\n"   
