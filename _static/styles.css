@@ -1,0 +1,60 @@
+.styled-table1 {
+    /* width: 70%; */
+    border: 5px solid #8fcbff;
+    border-collapse: collapse; 
+    font-family: Arial, sans-serif;
+    color: hsl(0, 0%, 0%); /* Set font color for the entire table */    }
+
+    .styled-table2 {
+        width: 50%;
+        border: 1px solid #0c0c0c; /* Set border for the entire table */
+        border-collapse: collapse; 
+        font-family: Arial, sans-serif;
+        color: hsl(0, 0%, 0%); /* Set font color for the entire table */    
+    }
+    
+    .styled-table2 th {
+        /* Table header */
+        background-color: #8fcbff;
+        color: #0c0c0c; /* Set font color for table headers */ 
+        text-align: center; /* Center align text in header cells */
+        border: 1px solid #0c0c0c; /* Set border for header cells */
+        /* padding: 0px; Add padding to header cells */
+    }
+    
+    .styled-table2 th, .styled-table2 td {
+        /* Table body */
+        border: 1px solid #0c0c0c; /* Set border for data cells */
+        padding: 5px; /* Add padding to data cells */
+        color: #093002; /* Set font color for table data */  
+        padding-top: 0px; /* Add padding to header cells */   
+        padding-bottom: 0px; /* Add padding to header cells */   
+        padding-left: 5px;
+        white-space: nowrap; /* Prevent word wrapping */
+    }
+    
+
+.style3 {    
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    color: #0d0d0d; /* Set font color for the entire table */
+    font-size: 16px;
+    font-weight: bold; /* Жирний шрифт */
+}
+
+
+.style1 {    
+    font-style: italic; /* Курсив */
+}
+
+
+.style2 {    
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    color: 
+    #4800ff; /* Set font color for the entire table */
+    font-size: 20px;
+    font-weight: bold; /* Жирний шрифт */
+}

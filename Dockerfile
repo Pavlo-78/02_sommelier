@@ -7,6 +7,9 @@ COPY ./_appn /_appn
 # Create a folder at the container root and copy files there from project
 RUN mkdir /_sqlapi
 COPY ./_sqlapi /_sqlapi
+# Create a folder at the container root and copy files there from project
+RUN mkdir /_static
+COPY ./_static /_static
 # Copy files to container root from project root 
 COPY ./requirements.txt /
 COPY ./wine.db /
