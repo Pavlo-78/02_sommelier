@@ -14,7 +14,10 @@ with
 			select  
 				a.wine_id as id, 
 				b.wine_id as id2,
-				sum(a.count * case when a.keyword_type ='primary' then 1 else 0.5 end) as taste_index,
+				CAST(sum(a.count * case when a.keyword_type ='primary' 
+									then 1 else 0.5 end) 
+					AS integer) 
+				as taste_index,
 				sum(a.count) as taste_confirmations			
 			from keywords_wine a
 			inner join keywords_wine b 
@@ -28,7 +31,7 @@ with
 	,n as ( --defining differences
 			select 
 				w1.name,		w2.name 		as name2,  
-				w1.price1L, 	w2.price1L 		as price1L2,				
+				w1.price1L, 	CAST(w2.price1L AS INTEGER) 		as price1L2,				
 				w1.rating,		w2.rating 		as rating2, 	
 				w1.winery_id,	w2.winery_id	as winery_id2,
 				w2.price1L/w1.price1L 			as price1L_rdiff,

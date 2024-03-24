@@ -36,14 +36,17 @@ def process_vintage(row):
 @app88.get("/w_list")
 def wlist():      
     # read sql
-    with open(r"./_sqlapi/Query08api01.sql", "r") as file: 
-        sql = file.read() 
-    conn = sqlite3.connect(r"./wine.db")  
+    with open(r"./_sqlapi/Query08api01.sql", "r") as file: sql = file.read() 
+    conn = sqlite3.connect(r"./wine.db") 
+    if os.path.exists('Dockerfile'):
+       url = 'http://127.0.0.1:8000/substitutes/'
+    else:
+       url = 'https://zero2-sommelier.onrender.com/substitutes/'
 
     df = pd.read_sql_query(sql, conn)
     df_sub = df[['rn','id', 'name', 'winery_id', 'price1L', 'rating',  'vintage']]
     df_sub['vintage'] = df_sub.apply(process_vintage, axis=1)
-    df_sub['link'] = '<a href="http://127.0.0.1:8000/substitutes/' + df_sub['id'].astype(str) +'">'+ r'substitutes</a> '
+    df_sub['substitutes'] = f'<a href="{url}' + df_sub['id'].astype(str) +'">'+ r'click to find </a> '
     df_subhtml = df_sub.to_html(index = False, escape=False ) #escape - to save links
     df_subhtml = df_subhtml.replace('<table border="1" class="dataframe">','')
     df_subhtml = df_subhtml.replace('</table>','')
@@ -74,8 +77,7 @@ def wlist():
 @app88.get("/substitutes/{wine}")
 def read_item_finder(wine: str):#, q: Union[str, None] = None):
     # read sql
-    with open(r"./_sqlapi/Query08api02.sql", "r") as file: 
-        sql = file.read()
+    with open(r"./_sqlapi/Query08api02.sql", "r") as file: sql = file.read()
     wine = wine.replace(' ','%')
     sql=sql.replace('@VINE',"" + wine + "")
     conn = sqlite3.connect(r"./wine.db") 
