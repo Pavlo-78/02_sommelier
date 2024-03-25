@@ -44,9 +44,9 @@ def wlist():
        url = 'https://zero2-sommelier.onrender.com/substitutes/'
 
     df = pd.read_sql_query(sql, conn)
-    df_sub = df[['rn','id', 'name', 'winery_id', 'price1L', 'rating',  'vintage']]
-    df_sub['vintage'] = df_sub.apply(process_vintage, axis=1)
-    df_sub['substitutes'] = f'<a href="{url}' + df_sub['id'].astype(str) +'">'+ r'click to find </a> '
+    df['vintage'] = df.apply(process_vintage, axis=1)    
+    df['name&click']= f'<a href="{url}' + df['id'].astype(str) +'">'+ df['name']+'</a> '    
+    df_sub = df[['rn','id', 'name&click', 'winery_id', 'price1L', 'rating',  'vintage']]    
     df_subhtml = df_sub.to_html(index = False, escape=False ) #escape - to save links
     df_subhtml = df_subhtml.replace('<table border="1" class="dataframe">','')
     df_subhtml = df_subhtml.replace('</table>','')
@@ -58,7 +58,7 @@ def wlist():
         <div class='style2'>  THE LIST OF WINES  </div><br>     
         <div class='style1'>
             This is a list of the various wines in stock.<br>
-            Click on the "find substitutes" link to see the 5 most popular alternatives carefully selected based on taste, price and rating. 
+            Click on the name of a wine to see the most popular alternatives carefully selected based on taste, price and rating. 
     </head>
     <body>        
         <table class='styled-table2'>{df_subhtml}</table><br>        
@@ -93,7 +93,8 @@ def read_item_finder(wine: str):#, q: Union[str, None] = None):
         <link rel="stylesheet" href="/_static/styles.css" >
         <div class='style1'>  {str(datetime.now())[:19]} </div>
         <div class='style1'>  You've selected the vine  </div>
-        <div class='style2'>  {df.iloc[0]['name'].upper()}  </div><br>     
+        <div class='style2'>   {df.iloc[0]['name'].upper()} </div>
+        <div class='style3'> id {df.iloc[0]['id']} </div><br>
         <div class='style3'>
             The table for selecting alternatives with the closest wines based on taste, rating, and price</div>        
     </head>
